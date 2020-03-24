@@ -1,0 +1,50 @@
+name: Install PostgreSQL
+
+on: 
+  push:
+    branches:
+      - '*'
+
+jobs:
+  
+  windows-latest:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install PostgreSQL
+      run: |
+        curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+        sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+        sudo apt update
+        sudo apt install postgresql-12
+    - name: Check Postgres version
+      run: |
+        postgres --version
+    - name: Check Postgres running
+      run: |
+        psql -U postgres -d postgres -c "SELECT version()"
+
+  windows-latest:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install PostgreSQL
+      run: |
+        curl https://get.enterprisedb.com/postgresql/postgresql-12.2-1-windows-x64-binaries.zip --output pgsql12.zip
+        Expand-Archive 'pgsql12.zip' -Verbose
+    - name: Check Postgres version
+      run: |
+        pgsql12\pgsql\bin\postgres --version
+    - name: Init Postgres cluster
+      run: |
+        pgsql12\pgsql\bin\initdb -D pgsql12\data -U postgres
+    - name: Start Postgres cluster
+      run: |
+        pgsql12\pgsql\bin\pg_ctl -D pgsql12\data start      
+    - name: Check Postgres running
+      run: |
+        pgsql12\pgsql\bin\psql -U postgres -d postgres -c "SELECT version()"
