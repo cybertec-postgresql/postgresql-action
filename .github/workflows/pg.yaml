@@ -21,7 +21,7 @@ jobs:
     - name: Check Postgres running
       run: |
         sudo apt install postgresql-client
-        psql -U postgres -d postgres -c "SELECT version()"
+        psql -U postgres -d postgres -c -h localhost "SELECT version()"
 
   # ubuntu-latest:
   #   runs-on: ubuntu-latest
