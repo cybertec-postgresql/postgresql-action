@@ -7,23 +7,24 @@ on:
 
 jobs:
 
-  ubuntu-marketplace:
+  ubuntu-service:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-    steps:
-    - name: Setup PostgreSQL
-      uses: Harmon758/postgresql-action@v1.0.0
-      with:
-        postgresql version: '11'
-        postgresql db: 'postgres'
-        postgresql user: 'postgres'
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+        - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     - name: Check Postgres running
       run: |
-        sleep 1m
         psql -U postgres -d postgres -h localhost -c "SELECT version()"
 
-  # ubuntu-latest:
+  # ubuntu-install:
   #   runs-on: ubuntu-latest
   #   strategy:
   #     fail-fast: false
