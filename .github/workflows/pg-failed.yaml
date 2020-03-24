@@ -3,7 +3,7 @@ name: Install PostgreSQL (failed)
 on: 
   push:
     branches:
-      - '!*'
+      - 'failed'
 
 jobs:
 

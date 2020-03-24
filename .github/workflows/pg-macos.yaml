@@ -1,0 +1,25 @@
+name: Install PostgreSQL
+
+on: 
+  push:
+    branches:
+      - 'macos'
+
+jobs:
+  macos-binaries:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install PostgreSQL
+      shell: pwsh
+      run: |
+        curl https://get.enterprisedb.com/postgresql/postgresql-12.2-1-osx-binaries.zip --output pgsql12.zip
+        Expand-Archive 'pgsql12.zip' -Force
+        $env:path += ";$(Get-Location)\pgsql12\pgsql\bin\"
+        $env:path -split ";"
+        initdb -D pgsql12\data -U postgres
+        pg_ctl -D pgsql12\data start      
+    - name: Check Postgres running
+      shell: pwsh
+      run: |
+        pgsql12\pgsql\bin\psql -U postgres -d postgres -c "SELECT version()"
