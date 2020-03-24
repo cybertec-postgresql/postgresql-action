@@ -22,4 +22,4 @@ jobs:
     - name: Check Postgres running
       shell: pwsh
       run: |
-        pgsql12\pgsql\bin\psql -U postgres -d postgres -c "SELECT version()"
+        pgsql12/pgsql/bin/psql -U postgres -d postgres -c "SELECT version()"
