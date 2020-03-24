@@ -1,4 +1,4 @@
-name: Install PostgreSQL
+name: Install PostgreSQL (failed)
 
 on: 
   push:
