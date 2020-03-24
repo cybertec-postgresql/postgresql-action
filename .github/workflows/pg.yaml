@@ -6,7 +6,7 @@ on:
       - '*'
 
 jobs:
-  
+
   ubuntu-latest:
     runs-on: ubuntu-latest
     strategy:
@@ -19,12 +19,9 @@ jobs:
         sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
         sudo apt update
         sudo apt install postgresql-12
-    - name: Check Postgres version
-      run: |
-        postgres --version
     - name: Check Postgres running
       run: |
-        psql -U postgres -d postgres -c "SELECT version()"
+        sudo -u postgres psql -c "SELECT version()"
 
   windows-latest:
     runs-on: windows-latest
@@ -35,16 +32,14 @@ jobs:
     - name: Install PostgreSQL
       run: |
         curl https://get.enterprisedb.com/postgresql/postgresql-12.2-1-windows-x64-binaries.zip --output pgsql12.zip
-        Expand-Archive 'pgsql12.zip' -Verbose
-    - name: Check Postgres version
-      run: |
-        pgsql12\pgsql\bin\postgres --version
+        Expand-Archive 'pgsql12.zip' -Force
+        $env:path += ";$(Get-Location)\pgsql12\pgsql\bin\"
     - name: Init Postgres cluster
       run: |
-        pgsql12\pgsql\bin\initdb -D pgsql12\data -U postgres
+        initdb -D pgsql12\data -U postgres
     - name: Start Postgres cluster
       run: |
-        pgsql12\pgsql\bin\pg_ctl -D pgsql12\data start      
+        pg_ctl -D pgsql12\data start      
     - name: Check Postgres running
       run: |
-        pgsql12\pgsql\bin\psql -U postgres -d postgres -c "SELECT version()"
+        psql -U postgres -d postgres -c "SELECT version()"
