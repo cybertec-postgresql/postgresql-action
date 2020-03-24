@@ -5,6 +5,8 @@ on:
     branches:
       - '!*'
 
+jobs:
+
   ubuntu-marketplace:
     runs-on: ubuntu-latest
     strategy:
