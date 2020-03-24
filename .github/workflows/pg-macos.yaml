@@ -17,9 +17,9 @@ jobs:
         Expand-Archive 'pgsql12.zip' -Force
         $env:path += ";$(Get-Location)/pgsql12/pgsql/bin"
         $env:path -split ";"
-        pgsql12/pgsql/bin/initdb -D pgsql12/data -U postgres
-        pgsql12/pgsql/bin/pg_ctl -D pgsql12/data start      
+        initdb -D pgsql12/data -U postgres
+        bin/pg_ctl -D pgsql12/data start      
     - name: Check Postgres running
       shell: pwsh
       run: |
-        pgsql12/pgsql/bin/psql -U postgres -d postgres -c "SELECT version()"
+        pgsql12/pgsql/bin\psql -U postgres -d postgres -c "SELECT version()"
