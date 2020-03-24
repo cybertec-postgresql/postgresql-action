@@ -20,7 +20,7 @@ jobs:
         postgresql user: 'postgres'
     - name: Check Postgres running
       run: |
-        sleep 30s
+        sleep 1m
         psql -U postgres -d postgres -h localhost -c "SELECT version()"
 
   # ubuntu-latest:
