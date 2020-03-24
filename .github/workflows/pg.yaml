@@ -34,12 +34,9 @@ jobs:
         curl https://get.enterprisedb.com/postgresql/postgresql-12.2-1-windows-x64-binaries.zip --output pgsql12.zip
         Expand-Archive 'pgsql12.zip' -Force
         $env:path += ";$(Get-Location)\pgsql12\pgsql\bin\"
-    - name: Init Postgres cluster
-      run: |
+        $env:path -split ";"
         initdb -D pgsql12\data -U postgres
-    - name: Start Postgres cluster
-      run: |
         pg_ctl -D pgsql12\data start      
     - name: Check Postgres running
       run: |
-        psql -U postgres -d postgres -c "SELECT version()"
+        pgsql12\pgsql\bin\psql -U postgres -d postgres -c "SELECT version()"
