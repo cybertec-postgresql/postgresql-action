@@ -11,13 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+    steps:
     - name: Setup PostgreSQL
-    uses: Harmon758/postgresql-action@v1.0.0
-    with:
-      postgresql version: '12'
-      postgresql db: 'postgres'
-      postgresql user: 'postgres'
-      postgresql password: 'postgres'
+      uses: Harmon758/postgresql-action@v1.0.0
+      with:
+        postgresql version: '12'
+        postgresql db: 'postgres'
+        postgresql user: 'postgres'
+        postgresql password: 'postgres'
     - name: Check Postgres running
       run: |
         sudo apt install postgresql-client
