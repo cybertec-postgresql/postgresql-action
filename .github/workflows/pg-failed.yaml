@@ -3,7 +3,7 @@ name: Install PostgreSQL (failed)
 on: 
   push:
     branches:
-      - 'failed'
+      - '*'
 
 jobs:
 
@@ -18,7 +18,15 @@ jobs:
         postgresql version: '11'
         postgresql db: 'postgres'
         postgresql user: 'postgres'
+    - name: Wait / Sleep
+      uses: jakejarvis/wait-action@v0.1.0
+      with:
+        time: '10s'
+    - name: Collect Docker Logs
+      uses: jwalton/gh-docker-logs@v1.0.0
+    - name: Check running containers
+      run: docker ps -a        
     - name: Check Postgres running
       run: |
-        sleep 1m
+        sleep 10s
         psql -U postgres -d postgres -h localhost -c "SELECT version()"
