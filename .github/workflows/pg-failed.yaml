@@ -18,6 +18,7 @@ jobs:
         postgresql version: '11'
         postgresql db: 'postgres'
         postgresql user: 'postgres'
+        postgresql password: 'postgres'
     - name: Wait / Sleep
       uses: jakejarvis/wait-action@v0.1.0
       with:
@@ -29,4 +30,4 @@ jobs:
     - name: Check Postgres running
       run: |
         sleep 10s
-        psql -U postgres -d postgres -h localhost -c "SELECT version()"
+        PGPASSWORD=postgres psql -U postgres -d postgres -h localhost -c "SELECT version()"
