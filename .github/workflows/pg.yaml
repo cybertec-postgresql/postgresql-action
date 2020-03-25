@@ -7,6 +7,25 @@ on:
 
 jobs:
 
+  ubuntu-marketplace:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup PostgreSQL
+      uses: Harmon758/postgresql-action@v1.0.0
+      with:
+        postgresql version: '12'
+        postgresql db: 'postgres'
+        postgresql user: 'postgres'
+        postgresql password: 'postgres'
+    - name: Collect Docker Logs
+      uses: jwalton/gh-docker-logs@v1.0.0
+    - name: Check running containers
+      run: docker ps -a        
+    - name: Check Postgres running
+      run: |
+        sleep 10s
+        PGPASSWORD=postgres psql -U postgres -d postgres -h localhost -c "SELECT version()"
+
   ubuntu-service:
     runs-on: ubuntu-latest
     services:
@@ -27,8 +46,6 @@ jobs:
 
   ubuntu-install:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
     steps:
     - uses: actions/checkout@v1
     - name: Install PostgreSQL
@@ -43,8 +60,6 @@ jobs:
 
   windows-binaries:
     runs-on: windows-latest
-    strategy:
-      fail-fast: false
     steps:
     - uses: actions/checkout@v1
     - name: Install PostgreSQL
