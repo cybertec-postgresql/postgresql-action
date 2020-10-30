@@ -13,7 +13,7 @@ jobs:
     - name: Setup PostgreSQL
       uses: Harmon758/postgresql-action@v1.0.0
       with:
-        postgresql version: '12'
+        postgresql version: '13'
         postgresql db: 'postgres'
         postgresql user: 'postgres'
         postgresql password: 'postgres'
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:12
+        image: postgres:13
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -53,7 +53,7 @@ jobs:
         curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
         sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
         sudo apt update
-        sudo apt install postgresql-12
+        sudo apt install postgresql-13
     - name: Check Postgres running
       run: |
         sudo -u postgres psql -c "SELECT version()"
@@ -64,15 +64,15 @@ jobs:
     - uses: actions/checkout@v1
     - name: Install PostgreSQL
       run: |
-        curl https://get.enterprisedb.com/postgresql/postgresql-12.2-1-windows-x64-binaries.zip --output pgsql12.zip
-        Expand-Archive 'pgsql12.zip' -Force
-        $env:path += ";$(Get-Location)\pgsql12\pgsql\bin\"
+        curl https://get.enterprisedb.com/postgresql/postgresql-13.2-1-windows-x64-binaries.zip --output pgsql.zip
+        Expand-Archive 'pgsql.zip' -Force
+        $env:path += ";$(Get-Location)\pgsql\pgsql\bin\"
         $env:path -split ";"
-        initdb -D pgsql12\data -U postgres
-        pg_ctl -D pgsql12\data start      
+        initdb -D pgsql\data -U postgres
+        pg_ctl -D pgsql\data start      
     - name: Check Postgres running
       run: |
-        pgsql12\pgsql\bin\psql -U postgres -d postgres -c "SELECT version()"
+        pgsql\pgsql\bin\psql -U postgres -d postgres -c "SELECT version()"
 
   macos-binaries:
     runs-on: macos-latest
@@ -81,11 +81,11 @@ jobs:
     - name: Install PostgreSQL
       shell: pwsh
       run: |
-        curl https://get.enterprisedb.com/postgresql/postgresql-12.2-1-osx-binaries.zip --output pgsql12.zip
-        Expand-Archive 'pgsql12.zip' -Force
-        pgsql12/pgsql/bin/initdb -D pgsql12/data -U postgres
-        pgsql12/pgsql/bin/pg_ctl -D pgsql12/data start      
+        curl https://get.enterprisedb.com/postgresql/postgresql-13.2-1-osx-binaries.zip --output pgsql.zip
+        Expand-Archive 'pgsql.zip' -Force
+        pgsql/pgsql/bin/initdb -D pgsql/data -U postgres
+        pgsql/pgsql/bin/pg_ctl -D pgsql/data start      
     - name: Check Postgres running
       shell: pwsh
       run: |
-        pgsql12/pgsql/bin/psql -U postgres -d postgres -c "SELECT version()"
+        pgsql/pgsql/bin/psql -U postgres -d postgres -c "SELECT version()"
