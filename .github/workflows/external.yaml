@@ -47,7 +47,6 @@ jobs:
   ubuntu-install:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
     - name: Install PostgreSQL
       run: |
         curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
@@ -62,7 +61,6 @@ jobs:
   windows-binaries:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v1
     - name: Install PostgreSQL
       run: |
         curl https://get.enterprisedb.com/postgresql/postgresql-13.0-1-windows-x64-binaries.zip --output pgsql.zip
@@ -78,7 +76,6 @@ jobs:
   macos-binaries:
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v1
     - name: Install PostgreSQL
       shell: pwsh
       run: |
