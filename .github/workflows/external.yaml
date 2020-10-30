@@ -65,7 +65,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Install PostgreSQL
       run: |
-        curl https://get.enterprisedb.com/postgresql/postgresql-13.2-1-windows-x64-binaries.zip --output pgsql.zip
+        curl https://get.enterprisedb.com/postgresql/postgresql-13.0-1-windows-x64-binaries.zip --output pgsql.zip
         Expand-Archive 'pgsql.zip' -Force
         $env:path += ";$(Get-Location)\pgsql\pgsql\bin\"
         $env:path -split ";"
@@ -82,7 +82,7 @@ jobs:
     - name: Install PostgreSQL
       shell: pwsh
       run: |
-        curl https://get.enterprisedb.com/postgresql/postgresql-13.2-1-osx-binaries.zip --output pgsql.zip
+        curl https://get.enterprisedb.com/postgresql/postgresql-13.0-1-osx-binaries.zip --output pgsql.zip
         Expand-Archive 'pgsql.zip' -Force
         pgsql/pgsql/bin/initdb -D pgsql/data -U postgres
         pgsql/pgsql/bin/pg_ctl -D pgsql/data start      
