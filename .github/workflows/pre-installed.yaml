@@ -74,5 +74,5 @@ jobs:
         sudo -u postgres psql --command="CREATE USER scheduler PASSWORD 'somestrong'" --command="\du"
     - name: Create timetable database
       run: |
-        sudo -u postgres createdb --owner=scheduler timetable -O scheduler
+        sudo -u postgres createdb --owner=scheduler timetable
         PGPASSWORD=somestrong psql --username=scheduler --host=localhost --list timetable
